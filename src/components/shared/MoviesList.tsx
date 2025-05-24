@@ -74,6 +74,14 @@ export const MoviesList = () => {
     movie.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center flex-1">
+        <div>Loading movies...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mx-auto w-full">
       {filteredMovies?.map((movie, index) => (
