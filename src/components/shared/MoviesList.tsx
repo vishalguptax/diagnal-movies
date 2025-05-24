@@ -12,13 +12,17 @@ export const MoviesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { searchTerm } = useSearch();
 
+  console.log({ movies, isLoading, isLoadingMore, hasMore, currentPage });
+
   //  I prefer using combo of react-query + axios for APIs handling, but since the task is to fetch from a static JSON, I will use fetch API.
   //  All this can be improved for cleaner code using a custom hook ie. useMovies
 
   const fetchMovies = useCallback(async (page: number) => {
     if (isLoading) return;
     try {
-      setIsLoading(true);
+      if (page === 1) {
+        setIsLoading(true);
+      }
       const response = await fetch(
         `https://test.create.diagnal.com/data/page${page}.json`
       );
