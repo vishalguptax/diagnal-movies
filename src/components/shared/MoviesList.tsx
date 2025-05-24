@@ -3,6 +3,7 @@ import { MovieCard } from "./MovieCard";
 import type { MovieData } from "../../@types";
 import { useDebounceCallback } from "usehooks-ts";
 import { useSearch } from "../../store";
+import { Loader } from "../template/Loader";
 
 export const MoviesList = () => {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -79,11 +80,7 @@ export const MoviesList = () => {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center flex-1">
-        <div>Loading movies...</div>
-      </div>
-    );
+    return <Loader content="Movies are loading..." />;
   }
 
   return (

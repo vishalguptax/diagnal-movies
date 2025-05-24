@@ -1,14 +1,11 @@
 import { lazy, Suspense } from "react";
+import { Loader } from "./components/template/Loader";
 
 const AppLayout = lazy(() => import("./components/layout/AppLayout"));
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex items-center justify-center">Loading...</div>
-      }
-    >
+    <Suspense fallback={<Loader />}>
       <AppLayout />
     </Suspense>
   );
