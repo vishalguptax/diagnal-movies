@@ -4,7 +4,11 @@ const AppLayout = lazy(() => import("./components/layout/AppLayout"));
 
 function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center">Loading...</div>
+      }
+    >
       <AppLayout />
     </Suspense>
   );
