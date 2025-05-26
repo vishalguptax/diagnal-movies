@@ -4,6 +4,7 @@ import type { MovieData } from "../../@types";
 import { useDebounceCallback } from "usehooks-ts";
 import { useSearch } from "../../store";
 import { Loader } from "../template/Loader";
+import { getMoviesApi } from "../../services";
 
 export const MoviesList = () => {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -15,7 +16,7 @@ export const MoviesList = () => {
 
   console.log({ movies, isLoading, isLoadingMore, hasMore, currentPage });
 
-  //  I prefer using combo of react-query + axios for APIs handling, but since the task is to fetch from a static JSON, I will use fetch API.
+  //  I prefer using combo of react-query + axios for APIs handling, but since the task small, I went with this.
   //  All this can be improved for cleaner code using a custom hook ie. useMovies
 
   const fetchMovies = useCallback(async (page: number) => {
@@ -24,16 +25,7 @@ export const MoviesList = () => {
       if (page === 1) {
         setIsLoading(true);
       }
-      const response = await fetch(
-        `https://test.create.diagnal.com/data/page${page}.json`
-      );
-
-      if (!response.ok) {
-        setHasMore(false);
-        throw new Error(`Page ${page} not found`);
-      }
-
-      const data = await response.json();
+      const { data } = await getMoviesApi({ page });
       const newMovies = data.page["content-items"].content as MovieData[];
       const totalItems = Number(data.page["total-content-items"]);
 
@@ -61,7 +53,7 @@ export const MoviesList = () => {
   const handleLoadMore = useDebounceCallback(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.scrollHeight - 50 &&
+        document.documentElement.scrollHeight - 100 &&
       hasMore &&
       !isLoadingMore
     ) {
@@ -79,22 +71,45 @@ export const MoviesList = () => {
     movie.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const [isLandscape, setIsLandscape] = useState(
+    window.innerWidth > window.innerHeight
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLandscape(window.innerWidth > window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const gridClassName = isLandscape
+    ? "grid grid-cols-5 gap-4 sm:gap-6 mx-auto w-full"
+    : "grid grid-cols-3 gap-4 sm:gap-6 mx-auto w-full";
+
   if (isLoading) {
     return <Loader content="Movies are loading..." />;
   }
 
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mx-auto w-full">
-      {filteredMovies?.map((movie, index) => (
-        <MovieCard key={`${movie?.name}-${index}`} movie={movie} />
-      ))}
+    <div className="flex flex-1 flex-col h-full overflow-y-auto">
+      {movies?.length > 0 && !!searchTerm && (
+        <div className="mb-4 text-center">
+          {filteredMovies?.length} movies found.
+        </div>
+      )}
+      <div className={gridClassName}>
+        {filteredMovies.map((movie, index) => (
+          <MovieCard key={`${movie?.name}-${index}`} movie={movie} />
+        ))}
+      </div>
       {isLoadingMore && (
-        <div className="col-span-full flex justify-center py-4">
+        <div className="flex justify-center py-4">
           <div>Loading movies...</div>
         </div>
       )}
-      {!hasMore && movies?.length > 0 && (
-        <div className="col-span-full flex justify-center py-4 text-gray-400 text-sm">
+      {!hasMore && movies?.length > 0 && !searchTerm && (
+        <div className="flex justify-center py-4 text-gray-400 text-sm">
           No more movies to load.
         </div>
       )}

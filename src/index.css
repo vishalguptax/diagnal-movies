@@ -11,6 +11,7 @@
 html,
 body {
   @apply bg-background text-foreground font-titillium-web;
+  scrollbar-gutter: stable;
 }
 
 .loader {

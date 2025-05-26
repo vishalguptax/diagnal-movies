@@ -1,60 +1,35 @@
 import { useState } from "react";
-import { useSearch } from "../../store";
+import { SearchInput } from "../ui/SearchInput";
+import { IconButton } from "../ui/IconButton";
 
 export const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
-  const { setSearchTerm, searchTerm } = useSearch();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
+  const handleClose = () => {
+    setShowSearch(false);
   };
 
   return (
-    <nav className="sticky top-0 z-10  w-full h-24">
+    <nav className="sticky top-0 z-10 w-full h-20">
       <img
         src="https://test.create.diagnal.com/images/nav_bar.png"
-        alt=""
-        className="absolute w-full z-20 h-full pointer-events-none"
+        alt="navbar background"
+        className="absolute bottom-0 w-full h-full pointer-events-none"
       />
-      <div className="flex justify-between items-center px-4 py-2 gap-4 container mx-auto overflow-hidden relative z-30 ">
+      <div className="flex justify-between items-start pt-2.5 h-full px-4 gap-4 w-full overflow-hidden relative z-30 container mx-auto">
         {showSearch ? (
-          <input
-            type="text"
-            onChange={handleSearch}
-            value={searchTerm}
-            placeholder="Search Romantic Movies..."
-            autoFocus
-            onBlur={() => {
-              if (!searchTerm) {
-                setShowSearch(false);
-              }
-            }}
-            className="px-4 py-2 w-full"
-          />
+          <SearchInput onClose={handleClose} />
         ) : (
-          <h1 className="flex items-center gap-3 py-2">
-            <img
-              src="https://test.create.diagnal.com/images/Back.png"
-              alt="back"
-              className="h-4"
-            />
-            Romantic Movies
-          </h1>
+          <h1 className="text-lg">Romantic Movies</h1>
         )}
 
-        <button
-          className="flex items-center justify-center w-8 h-8 cursor-pointer"
-          onClick={() => {
-            setShowSearch(!showSearch);
-          }}
-        >
-          <img
-            src="https://test.create.diagnal.com/images/search.png"
+        {!showSearch && (
+          <IconButton
+            imgPath="search.png"
             alt="search"
-            className="h-4"
+            onClick={() => setShowSearch(true)}
           />
-        </button>
+        )}
       </div>
     </nav>
   );
