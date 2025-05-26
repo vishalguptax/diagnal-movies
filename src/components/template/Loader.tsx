@@ -1,10 +1,10 @@
-import React from "react";
+import type { ReactNode } from "react";
 
-export const Loader = ({ content }: { content?: string | React.ReactNode }) => {
+export const Loader = ({ content }: { content?: string | ReactNode }) => {
   const DefaultLoader = () => {
     return (
       <div className="flex items-center justify-center  h-screen">
-        <div className="loader">Loading...</div>
+        <div className="loader" />
       </div>
     );
   };

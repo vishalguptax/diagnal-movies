@@ -1,54 +1,149 @@
-# React + TypeScript + Vite
+# Diagnal Movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive movie listing application built with React and TypeScript. This application provides a seamless browsing experience for movies with features like infinite scrolling, search functionality, and responsive design.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎬 Responsive movie grid layout (3 columns in portrait, 5 columns in landscape)
+- 🔍 Real-time client-side search functionality
+- ♾️ Infinite scrolling with lazy loading
+- 🖼️ Optimized image loading with placeholders
+- ⌨️ Keyboard navigation support
+  - Arrow keys (↑, ↓, ←, →) for grid navigation
+  - Adapts to orientation (3/5 columns)
+  - Focus management with visual feedback
+- 🎯 Focus and hover effects on movie cards
+- 📱 Responsive design for all screen sizes
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Framework:** React 19
+- **Language:** TypeScript
+- **State Management:** Zustand
+- **Styling:** Tailwind CSS
+- **API Client:** Axios
+- **Build Tool:** Vite
+- **Package Manager:** npm
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd diagnal
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Build for production:
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+src/
+├── assets/         # Static assets like images
+├── components/     # React components
+│   ├── layout/    # Layout components
+│   ├── shared/    # Shared components
+│   ├── template/  # Template components
+│   └── ui/        # UI components
+├── constants/      # Constants and configuration
+├── hooks/         # Custom React hooks
+├── services/      # API services
+├── store/         # State management
+├── utils/         # Utility functions
+└── @types/        # TypeScript type definitions
+```
+
+## API Integration
+
+The application uses the following API endpoints:
+
+- Base URL: `https://test.create.diagnal.com/`
+- Data API: `/data/page{number}.json`
+- Images API: `/images/{image-name}`
+
+## Key Features Implementation
+
+### Responsive Grid
+
+- Implements a responsive grid layout that adapts to screen orientation
+- Portrait mode: 3 columns
+- Landscape mode: 5 columns
+
+### Search Functionality
+
+- Real-time client-side search
+- Debounced search input
+- Instant results without page reload
+
+### Infinite Scroll
+
+- Lazy loading of content
+- Smooth loading transitions
+- Optimized performance with pagination
+
+### Image Loading
+
+- Lazy loading of images
+- Placeholder images for loading states
+- Error handling for failed image loads
+
+### Keyboard Navigation
+
+- Full keyboard support for grid navigation
+- Arrow keys (↑, ↓, ←, →) for moving between items
+- Adapts to current orientation (3/5 columns)
+- Prevents default arrow key behavior
+- Visual feedback on focused items
+- Maintains focus within grid bounds
+- Smooth focus transitions
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
+
+### Code Style
+
+The project uses ESLint for code linting and follows TypeScript best practices. Make sure to run the linter before committing changes:
+
+```bash
+npm run lint
+```
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Performance Considerations
+
+- Debounced search operations
+- Optimized keyboard navigation

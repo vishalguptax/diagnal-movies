@@ -1,32 +1,45 @@
 import { useRef } from "react";
-import { useSearch } from "../../store";
+import { useMoviesStore } from "@/store";
 import { IconButton } from "./IconButton";
+import backIcon from "@/assets/images/Back.png";
 
 type SearchInputProps = {
   onClose: () => void;
 };
 
 export const SearchInput = ({ onClose }: SearchInputProps) => {
-  const { setSearchTerm, searchTerm } = useSearch();
+  const { setSearchTerm, searchTerm } = useMoviesStore();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  // Handle keydown events for Enter and Escape keys
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchRef.current?.blur();
+    }
+    if (e.key === "Escape") {
+      onClose();
+    }
   };
 
   const searchRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex items-center justify-between gap-2 w-full">
-      <IconButton imgPath="Back.png" alt="back" onClick={onClose} />
+      <IconButton src={backIcon} alt="back" onClick={onClose} />
       <div className="relative flex-1">
         <input
           type="text"
           ref={searchRef}
           onChange={handleSearch}
+          onKeyDown={handleKeyDown}
           value={searchTerm}
           placeholder="Search Romantic Movies..."
           autoFocus
-          className="px-4 py-1.5 text-sm placeholder:text-sm w-full border-foreground focus:outline-none border-2 bg-background/10 text-foreground placeholder-foreground/70 rounded-full"
+          className="px-4 py-1.5 text-sm placeholder:text-sm w-full border-foreground border-1 bg-background/10 text-foreground placeholder-foreground/70 rounded-full"
         />
         {searchTerm && (
           <button

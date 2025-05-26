@@ -1,20 +1,17 @@
 import type { ButtonHTMLAttributes } from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "@/utils/cn";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  imgPath: string;
+  src: string;
   alt: string;
   iconSize?: string;
   label?: string;
 }
 
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL || "https://test.create.diagnal.com/";
-
 export const IconButton = ({
-  imgPath,
+  src,
   alt,
-  iconSize = "w-4",
+  iconSize = "w-4 h-4",
   label,
   className,
   ...props
@@ -29,11 +26,7 @@ export const IconButton = ({
       aria-label={label || alt}
       title={label || alt}
     >
-      <img
-        src={`${BASE_URL}images/${imgPath}`}
-        alt={alt}
-        className={iconSize}
-      />
+      <img src={src} alt={alt} className={iconSize} />
     </button>
   );
 };

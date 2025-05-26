@@ -1,5 +1,5 @@
-import { MoviesList } from "../shared/MoviesList";
-import { Navbar } from "../template/Navbar";
+import { MoviesList } from "@/components/shared/MoviesList";
+import { Navbar } from "@/components/template/Navbar";
 
 const AppLayout = () => {
   return (
